@@ -30,13 +30,7 @@
         placeholder="Search User Name"
       />
       <!-- filter field-->
-      <!-- <input
-        type="text"
-        name="company"
-        id="company-filter"
-        placeholder="Filter by company"
-        class="mx-2"
-      /> -->
+
       <div class="input-group mb-3">
         <div class="input-group-prepend">
           <label class="input-group-text" for="inputGroupSelect01"
@@ -172,12 +166,6 @@
       var filterUsers = [];
 
       const displayCompanyList = (comapnyList) => {
-        // comapnyList.forEach((element )=> {
-        //   const companyInput=document.getElementById("inputGroupSelect01");
-        // const optionElement=document.createElement("option");
-        //   optionElement.innerText=element;
-        //   companyInput.appendChild(optionElement);
-        // });
         const companyInput = document.getElementById("inputGroupSelect01");
         const companylistHTML = companyList.map((val) => {
           return `<option>${val}</option>`;
@@ -211,35 +199,37 @@
 
       const getFilterData = () => {
         var tempUserArr = [...userList];
-
+        // get value from search
         const searchItem = document
           .getElementById("search-box")
           .value.toLowerCase();
-        // const companyItem= document.getElementById("inputGroupSelect01").value.toLowerCase();
+        // get value from company
         const select = document.getElementById("inputGroupSelect01");
         const companyItem = Array.from(select.selectedOptions).map((option) =>
           option.value.toLowerCase().trim()
         );
-
+        // get value from min and max age
         const maxAge = document.getElementById("max-age-filter").value;
         const minAge = document.getElementById("min-age-filter").value;
 
+        // find users by searching
         if (searchItem) {
-          filterUsers = tempUserArr.filter((user) => {
-            return (
-              user.fName.toLowerCase().includes(searchItem) ||
-              user.lName.toLowerCase().includes(searchItem)
-            );
-          });
-          tempUserArr = filterUsers;
+          const filterUsers = tempUserArr.filter((user) => {
+              return (
+                user.fName.toLowerCase().includes(searchItem.toLowerCase()) ||
+                user.lName.toLowerCase().includes(searchItem.toLowerCase())
+              );
+            });
+            tempUserArr = filterUsers;
         }
-        if (companyItem) {
+        // filter by company name
+        if (companyItem.length > 0) {
           filterUsers = tempUserArr.filter((user) =>
             companyItem.includes(user.company.toLowerCase())
           );
           tempUserArr = filterUsers;
         }
-
+        // filter by age
         if (minAge && maxAge) {
           if (minAge == 0 || minAge > maxAge) {
             alert("Enter right age input");
@@ -248,7 +238,7 @@
             return;
           }
           filterUsers = tempUserArr.filter((user) => {
-            return user.age > minAge && user.age < maxAge;
+            return user.age >= minAge && user.age <= maxAge;
           });
           tempUserArr = filterUsers;
         }
@@ -256,6 +246,7 @@
         displayUsers(tempUserArr);
       };
 
+      // reset search and filter
       const resetFilterData = () => {
         document.getElementById("search-box").value = "";
         document.getElementById("inputGroupSelect01").value = "";
@@ -266,7 +257,7 @@
 
       // search event
       const searchBox = document.getElementById("search-box");
-      searchBox.addEventListener("change", getFilterData);
+      searchBox.addEventListener("keyup", getFilterData);
       // apply event
       const applyFilter = document.getElementById("apply-filter");
       applyFilter.addEventListener("click", getFilterData);
