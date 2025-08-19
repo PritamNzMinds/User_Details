@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+      integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+      crossorigin="anonymous"
+    />
+
+    <title>Searching UI</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>User Details</h1>
+
+      <input
+        type="text"
+        class="form-control mx-2 my-5 sticky-top"
+        id="search-box"
+        placeholder="Search User Name"   
+      />
+
+      <input type="text" name="company" id="company-filter" placeholder="Filter by company" class="mx-2"/>
+      <input type="text" name="age" id="min-age-filter" placeholder="Filter by Min Age" class="mx-2"/>
+      <input type="text" name="company" id="max-age-filter" placeholder="Filter by Max Age" class=""/>
+      <button id="apply-filter">Apply</button>
+      <button id="reset-filter">Reset</button>
+
+      <div class="d-flex flex-row flex-wrap" id="user-list"></div>
+    </div>
+    <script>
+      const searchBox = document.getElementById("search-box");
+      const userList = document.getElementById("user-list");
+      const applyFilter=document.getElementById("apply-filter")
+      const resetFilter=document.getElementById("reset-filter")
+
+      const users = [
+        {
+          id: 1,
+          fName: "Pritam",
+          lName: "Adhikari",
+          email: "pa@example.com",
+          age: 22,
+          company: "NextZenMinds",
+          img: "https://randomuser.me/api/portraits/men/1.jpg",
+        },
+        {
+          id: 2,
+          fName: "Rahul",
+          lName: "Sharma",
+          email: "rahul.sharma@example.com",
+          age: 27,
+          company: "Infosys",
+          img: "https://randomuser.me/api/portraits/men/12.jpg",
+        },
+        {
+          id: 3,
+          fName: "Sneha",
+          lName: "Patel",
+          email: "sneha.patel@example.com",
+          age: 25,
+          company: "TCS",
+          img: "https://randomuser.me/api/portraits/women/13.jpg",
+        },
+        {
+          id: 4,
+          fName: "Arjun",
+          lName: "Reddy",
+          email: "arjun.reddy@example.com",
+          age: 29,
+          company: "Wipro",
+          img: "https://randomuser.me/api/portraits/men/14.jpg",
+        },
+        {
+          id: 5,
+          fName: "Priya",
+          lName: "Iyer",
+          email: "priya.iyer@example.com",
+          age: 24,
+          company: "HCL",
+          img: "https://randomuser.me/api/portraits/women/15.jpg",
+        },
+        {
+          id: 6,
+          fName: "Amit",
+          lName: "Verma",
+          email: "amit.verma@example.com",
+          age: 30,
+          company: "NextZenMinds",
+          img: "https://randomuser.me/api/portraits/men/16.jpg",
+        },
+        {
+          id: 7,
+          fName: "Kavya",
+          lName: "Menon",
+          email: "kavya.menon@example.com",
+          age: 23,
+          company: "Accenture",
+          img: "https://randomuser.me/api/portraits/women/17.jpg",
+        },
+        {
+          id: 8,
+          fName: "Rohit",
+          lName: "Singh",
+          email: "rohit.singh@example.com",
+          age: 28,
+          company: "Infosys",
+          img: "https://randomuser.me/api/portraits/men/18.jpg",
+        },
+        {
+          id: 9,
+          fName: "Neha",
+          lName: "Khan",
+          email: "neha.khan@example.com",
+          age: 26,
+          company: "Accenture",
+          img: "https://randomuser.me/api/portraits/women/19.jpg",
+        },
+        {
+          id: 10,
+          fName: "Vikram",
+          lName: "Das",
+          email: "vikram.das@example.com",
+          age: 32,
+          company: "TCS",
+          img: "https://randomuser.me/api/portraits/men/20.jpg",
+        },
+      ];
+
+      const renderUserDetails = (users) => {
+        const userCardHTML = users.map((user) => {
+          return `
+                <div class="card m-2" style="width: 16rem">
+                    <img
+                        src="${user.img}"
+                        class="card-img-top"
+                        alt="${user.fName}"
+                    />
+                    <div class="card-body">
+                        <h5>${user.fName} ${user.lName}</h5>
+                        <p>${user.email}</p>
+                        <p>${user.company}</p>
+                    </div>
+                </div>
+            `;
+        });
+        userList.innerHTML = userCardHTML;
+      };
+
+      searchBox.addEventListener("change", () => {
+        const searchItem = searchBox.value.toLowerCase();
+        const filterUsers = users.filter((user) => {
+          return user.fName.toLowerCase().includes(searchItem) || user.lName.toLowerCase().includes(searchItem);
+        });
+        renderUserDetails(filterUsers);
+      });
+
+      resetFilter.addEventListener("click",()=>{
+          searchBox.value=""  
+          renderUserDetails(users);
+      })
+
+      renderUserDetails(users);
+    </script>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+      integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>
