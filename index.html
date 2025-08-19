@@ -37,9 +37,7 @@
             >Filter by company</label
           >
         </div>
-        <select class="custom-select" multiple id="inputGroupSelect01">
-          <option selected>Choose...</option>
-        </select>
+        <select class="custom-select" multiple id="inputGroupSelect01"></select>
       </div>
       <input
         type="text"
@@ -59,8 +57,14 @@
       <button id="reset-filter">Reset</button>
 
       <!-- user details field-->
-       <div id="loader" style="display: none;">Loading...</div>
-      <div class="d-flex flex-row flex-wrap"  id="user-card"></div>
+      <div id="loader" style="display: none">
+        <div class="d-flex justify-content-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-row flex-wrap" id="user-card"></div>
     </div>
 
     <script>
@@ -199,7 +203,6 @@
       };
 
       const getFilterData = () => {
-
         var tempUserArr = [...userList];
 
         // get value from search
